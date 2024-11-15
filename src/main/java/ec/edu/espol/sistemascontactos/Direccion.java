@@ -6,7 +6,6 @@ package ec.edu.espol.sistemascontactos;
 
 /**
  *
- * @author DR JUAN PEREZ
  */
 public class Direccion {
     
