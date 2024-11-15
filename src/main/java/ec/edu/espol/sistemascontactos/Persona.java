@@ -6,6 +6,7 @@ package ec.edu.espol.sistemascontactos;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  *
@@ -42,8 +43,27 @@ public class Persona extends Contacto{
     public void elminarRedSocial(String plataforma){
         redesSociales.remove(plataforma);
     }
-    public void mostrarRedesSociales(){
-        redesSociales.forEach(());
+    
+    public void mostrarInformacionPersona() {
+        System.out.println("Nombre de la persona: " + getNombre()+" \n");
+        
+        System.out.println("Fecha de nacimiento: " + fechaNacimiento+" \n");
+        
+        
+        // Muestra los teléfonos
+        System.out.println("Teléfonos:");
+        getTelef().forEach((tipo, numero) -> System.out.println(tipo + ": " + numero));
+
+        
+        System.out.println("Emails:");
+        getEmails().forEach((tipo, email) -> System.out.println(tipo + ": " + email));
+        
+        
+        System.out.println("Redes Sociales:");
+        redesSociales.forEach((plataforma, usuario) -> {
+            System.out.println(plataforma + ": " + usuario);
+        });
+        
     }
     
     
