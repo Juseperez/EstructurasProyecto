@@ -16,6 +16,7 @@ public abstract class Contacto {
        private HashMap<String, Contacto> contactosRelacionados;
        private HashMap<String,String> emails;
        private HashMap<String, String> redesSociales;
+       
 
     public Contacto(String nombre, HashMap<String, String> telef, HashMap<String, Direccion> direccion, HashMap<String, Contacto> contactosRelacionados, HashMap<String, String> emails, HashMap<String, String> redesSociales) {
         this.nombre = nombre;
