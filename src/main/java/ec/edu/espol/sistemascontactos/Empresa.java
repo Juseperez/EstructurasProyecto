@@ -104,9 +104,6 @@ public class Empresa extends Contacto{
     }
     }
 
-    @Override
-    public String getIdentificador() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+
     
 }
