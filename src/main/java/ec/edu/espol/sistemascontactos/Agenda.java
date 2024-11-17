@@ -188,6 +188,18 @@ public class Agenda {
             } while (sc.nextLine().equalsIgnoreCase("s"));
         }
 
+        System.out.println("¿Desea agregar fechas de interés? (s/n):");
+        if (sc.nextLine().equalsIgnoreCase("s")) {
+            do {
+                System.out.println("Descripción de la fecha:");
+                String descripcion = sc.nextLine();
+                System.out.println("Fecha:");
+                String fecha = sc.nextLine();
+                persona.agregarFechaDeInteres(descripcion, fecha);
+                System.out.println("¿Desea agregar otra fecha? (s/n):");
+            } while (sc.nextLine().equalsIgnoreCase("s"));
+        }
+
         // Agregar el contacto a la lista
         contactos.addLast(persona);
         System.out.println("Contacto creado y agregado a la lista");
