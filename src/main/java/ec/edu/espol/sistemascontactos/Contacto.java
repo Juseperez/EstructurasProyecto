@@ -4,12 +4,13 @@
  */
 package ec.edu.espol.sistemascontactos;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
  *
  */
-public abstract class Contacto {
+public abstract class Contacto implements Serializable{
        private String nombre;
        private HashMap<String,String> telef;
        private HashMap<String,Direccion> direccion;
@@ -18,6 +19,7 @@ public abstract class Contacto {
        private HashMap<String, String> redesSociales;
        private ArrayListPropio<String> fotos;
        private HashMap<String,String> fechasDeInteres;
+       private static final long serialVersionUID = 1L;
        
 
     public Contacto(String nombre) {

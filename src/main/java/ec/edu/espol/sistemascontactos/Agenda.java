@@ -5,8 +5,13 @@
 package ec.edu.espol.sistemascontactos;
 
 import java.io.BufferedWriter;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -283,18 +288,33 @@ public class Agenda {
 }
 
     public void guardarContactos(String archivo) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo))) {
             NodoCircularDoble<Contacto> actual = contactos.miCabecera;
             if (actual != null) {
                 do {
-                    writer.write(actual.dato.toString()); // Serializar contacto
-                    writer.newLine();
+                    oos.writeObject(actual.dato);
                     actual = actual.siguiente;
                 } while (actual != contactos.miCabecera);
             }
-            System.out.println("Contactos guardados exitosamente.");
+            System.out.println("Contactos guardados exitosamente como binarios.");
         } catch (IOException e) {
             System.err.println("Error al guardar contactos: " + e.getMessage());
+        }
+    }
+
+    public void cargarContactos(String archivo) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo))) {
+            while (true) {
+                try {
+                    Contacto contacto = (Contacto) ois.readObject();
+                    contactos.addLast(contacto);
+                } catch (EOFException e) {
+                    break; // Fin del archivo
+                }
+            }
+            System.out.println("Contactos cargados exitosamente desde archivo binario.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error al cargar contactos: " + e.getMessage());
         }
     }
 }
