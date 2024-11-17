@@ -84,6 +84,14 @@ public abstract class Contacto {
         fechasDeInteres.remove(descripcion);
     }
     public abstract void mostrarInformacion();
-    public abstract String getIdentificador();   
+    public abstract String getIdentificador();
+
+    public ArrayListPropio<String> getFotos() {
+        return fotos;
+    }
+
+    public HashMap<String, String> getFechasDeInteres() {
+        return fechasDeInteres;
+    }   
     
 }

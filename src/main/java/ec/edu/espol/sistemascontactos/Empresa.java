@@ -85,6 +85,16 @@ public class Empresa extends Contacto{
         System.out.println("  " + tipo + ": " + this.getEmails().get(tipo));
     }
 
+    // Mostrar Fotos
+    System.out.println("Fotos:");
+        mostrarFotos();
+
+    // Mostrar Fechas de interés
+    System.out.println("Fechas de interés:");
+    getFechasDeInteres().forEach((descripcion, fecha) -> {
+        System.out.println(descripcion + ": " + fecha);
+    });
+
     // Mostrar información del director si existe
     if (this.getContactoDirector() != null) {
         System.out.println("Director:");

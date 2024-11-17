@@ -79,6 +79,13 @@ public class Persona extends Contacto{
             System.out.println(plataforma + ": " + usuario);
         });
         
+        System.out.println("Fotos:");
+        mostrarFotos();
+
+        System.out.println("Fechas de interés:");
+        getFechasDeInteres().forEach((descripcion, fecha) -> {
+            System.out.println(descripcion + ": " + fecha);
+        });
     }
     
     @Override
