@@ -16,6 +16,8 @@ public abstract class Contacto {
        private HashMap<String, Contacto> contactosRelacionados;
        private HashMap<String,String> emails;
        private HashMap<String, String> redesSociales;
+       private ArrayListPropio<String> fotos;
+       private HashMap<String,String> fechasDeInteres;
        
 
     public Contacto(String nombre) {
@@ -25,6 +27,8 @@ public abstract class Contacto {
         this.contactosRelacionados = new HashMap<>();
         this.emails = new HashMap<>();
         this.redesSociales = new HashMap<>();
+        this.fotos = new ArrayListPropio<>();
+        this.fechasDeInteres = new HashMap<>();
     }
        
        
@@ -55,6 +59,23 @@ public abstract class Contacto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+    public void agregarFoto(String ruta) {
+        fotos.add(ruta);
+    }
+    public String eliminarFoto(int indice) {
+        try {
+            return fotos.remove(indice);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Índice de foto inválido.");
+            return null;
+        }
+    }
+    public void agregarFechaDeInteres(String descripcion, String fecha) {
+        fechasDeInteres.put(descripcion,fecha);
+    }
+    public void eliminarFechaDeInteres(String descripcion) {
+        fechasDeInteres.remove(descripcion);
     }
     public abstract void mostrarInformacion();
     public abstract String getIdentificador();   
