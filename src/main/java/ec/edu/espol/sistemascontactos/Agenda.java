@@ -4,6 +4,14 @@
  */
 package ec.edu.espol.sistemascontactos;
 
+import java.io.BufferedWriter;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -18,60 +26,6 @@ public class Agenda {
         this.contactos = new CustomListaCircularEnlazadaDoble<>();
     }
     
-    public void agregarContacto() {
-        HashMap <String,String> telef=null;
-        String nombre;
-        String tipo;
-        String value;
-        HashMap<String,Direccion> direccion=null;
-        HashMap<String, Contacto> contactosRelacionados=null;
-        HashMap<String,String> emails=null;
-        HashMap<String, String> redesSociales=null;
-        int otro;
-        System.out.println("1. Agregar una persona");
-        System.out.println("2. Agregar una empresa");
-        System.out.println("Intgrese su opción:");
-        int opcion = scanner.nextInt();
-        if(opcion==1){
-            System.out.println("Ingresar nombre: ");
-            nombre = scanner.nextLine();
-            do{
-            System.out.println("Ingresar el numero de telefono: ");
-            value = scanner.nextLine();
-            System.out.println("¿Qué tipo de telefono es? (De trabajo, casa...): ");
-            tipo = scanner.nextLine();
-            telef.put(tipo, value);
-            System.out.println("¿Va a ingresar otro número?: (1 Si sí, cualquier otro número no) ");
-            otro = scanner.nextInt();
-            }while(otro==1);
-            do{
-            System.out.println("Ingrese su correo: ");
-            value = scanner.nextLine();
-            System.out.println("¿Qué tipo de correo es? (De trabajo, casa...): ");
-            tipo = scanner.nextLine();
-            emails.put(tipo, value);
-            System.out.println("¿Va a ingresar otro email?: (1 Si sí, cualquier otro número no) ");
-            otro = scanner.nextInt();
-            }while(otro==1);
-            do{
-            System.out.println("Ingrese una red social (Youtube, LinkedIn,etc): ");
-            tipo = scanner.nextLine();
-            System.out.println("Ingrese el link del contacto: ");
-            value = scanner.nextLine();
-            redesSociales.put(tipo, value);
-            System.out.println("¿Va a ingresar otra red social?: (1 Si sí, cualquier otro número no) ");
-            otro = scanner.nextInt();
-            }while(otro==1);
-            
-            
-            
-        }else if (opcion ==2){
-            
-        }
-        //Contacto contacto
-        //contactos.addLast(contacto);
-        //System.out.println("Contacto agregado: " + contacto);
-    }
     public void agregarEmpresa(){
         
     };
@@ -107,11 +61,11 @@ public class Agenda {
         }
     }
     public void eliminarContacto() {
-        // Solicitar al usuario el identificador del contacto
-        System.out.println("Ingrese el nombre o identificacion del contacto a eliminar:");
-        String identificador = scanner.nextLine();
+        // Solicitar al usuario el número de teléfono del contacto a eliminar
+        System.out.println("Ingrese el numero de telefono del contacto a eliminar:");
+        String telefono = scanner.nextLine();
 
-        // Verificamos si la lista de contactos está vacía
+        // Verificar si la lista de contactos está vacía
         if (contactos == null || contactos.mostrarPosicionContactoActual() == null) {
             System.out.println("No hay contactos en la agenda para eliminar.");
             return;
@@ -121,18 +75,22 @@ public class Agenda {
         boolean eliminado = false;
 
         // Recorremos la lista circular para buscar el contacto
-        NodoCircularDoble<Contacto> actual = contactos.miCabecera; // Nodo actual
+        NodoCircularDoble<Contacto> actual = contactos.miCabecera; // Obtenemos la cabeza de la lista
+        if (actual == null) {
+            System.out.println("No hay contactos en la lista.");
+            return;
+        }
+
         do {
             Contacto contacto = actual.dato; // Obtenemos el contacto del nodo actual
 
-            // Verificamos si el identificador coincide (nombre o identificación única)
-            if (contacto.getNombre().equalsIgnoreCase(identificador) || 
-                contacto.getIdentificador().equals(identificador)) {
-
-                // Llamamos al método eliminar de CustomListaCircularEnlazadaDoble
+            // Verificamos si alguno de los números en el HashMap coincide con el teléfono ingresado
+            if (contacto.getTelef().containsValue(telefono)) {
+                // Eliminamos el contacto
                 eliminado = contactos.eliminar(contacto);
                 break; // Salimos del bucle después de eliminar
             }
+
             actual = actual.siguiente; // Avanzamos al siguiente nodo
         } while (actual != contactos.miCabecera); // Mientras no completemos el recorrido
 
@@ -140,19 +98,14 @@ public class Agenda {
         if (eliminado) {
             System.out.println("El contacto fue eliminado con exito.");
         } else {
-            System.out.println("El contacto no fue encontrado.");
+            System.out.println("No se encontro un contacto con ese numero de telefono.");
         }
     }
-    // Crear un contacto de tipo Persona
     public void crearContactoPersona() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Ingrese el nombre de la persona:");
         String nombre = sc.nextLine();
-        
-        System.out.println("Ingrese su identificacion:");
-        String identificacion = sc.nextLine();
-        
 
         System.out.println("Ingrese la fecha de nacimiento (yyyy-MM-dd):");
         Date fechaNacimiento;
@@ -163,10 +116,40 @@ public class Agenda {
             return;
         }
 
-        Persona persona = new Persona(nombre, identificacion, fechaNacimiento);
+        // Crear la instancia de Persona
+        Persona persona = new Persona(nombre, fechaNacimiento);
 
-        System.out.println("Desea agregar redes sociales (s/n):");
+        // Agregar numeros de telefono
+        System.out.println("Desea agregar numeros de telefono (s/n):");
         String respuesta = sc.nextLine();
+        while (respuesta.equalsIgnoreCase("s")) {
+            System.out.println("Ingrese el tipo de telefono (Ej: movil, casa, trabajo):");
+            String tipo = sc.nextLine();
+            System.out.println("Ingrese el numero de telefono:");
+            String numero = sc.nextLine();
+            persona.getTelef().put(tipo, numero);
+
+            System.out.println("Desea agregar otro numero de telefono (s/n):");
+            respuesta = sc.nextLine();
+        }
+
+        // Agregar correos electronicos
+        System.out.println("Desea agregar correos electronicos (s/n):");
+        respuesta = sc.nextLine();
+        while (respuesta.equalsIgnoreCase("s")) {
+            System.out.println("Ingrese el tipo de correo (Ej: personal, trabajo):");
+            String tipo = sc.nextLine();
+            System.out.println("Ingrese el correo:");
+            String correo = sc.nextLine();
+            persona.getEmails().put(tipo, correo);
+
+            System.out.println("Desea agregar otro correo (s/n):");
+            respuesta = sc.nextLine();
+        }
+
+        // Agregar redes sociales
+        System.out.println("Desea agregar redes sociales (s/n):");
+        respuesta = sc.nextLine();
         while (respuesta.equalsIgnoreCase("s")) {
             System.out.println("Ingrese la plataforma (Ej: Instagram):");
             String plataforma = sc.nextLine();
@@ -178,10 +161,137 @@ public class Agenda {
             respuesta = sc.nextLine();
         }
 
+        System.out.println("¿Desea agregar fotos? (s/n):");
+        if (sc.nextLine().equalsIgnoreCase("s")) {
+            do {
+                System.out.println("Ruta de la foto:");
+                String foto = sc.nextLine();
+                persona.agregarFoto(foto);
+                System.out.println("¿Desea agregar otra foto? (s/n):");
+            } while (sc.nextLine().equalsIgnoreCase("s"));
+        }
+
+        System.out.println("¿Desea agregar fechas de interés? (s/n):");
+        if (sc.nextLine().equalsIgnoreCase("s")) {
+            do {
+                System.out.println("Descripción de la fecha:");
+                String descripcion = sc.nextLine();
+                System.out.println("Fecha:");
+                String fecha = sc.nextLine();
+                persona.agregarFechaDeInteres(descripcion, fecha);
+                System.out.println("¿Desea agregar otra fecha? (s/n):");
+            } while (sc.nextLine().equalsIgnoreCase("s"));
+        }
+
         // Agregar el contacto a la lista
         contactos.addLast(persona);
         System.out.println("Contacto creado y agregado a la lista");
     }
+
     
+   public void añadirContactoEmpresa() {
+    Scanner scanner = new Scanner(System.in);
+
+    // Solicitar datos de la empresa
+    System.out.println("Ingrese el nombre de la empresa:");
+    String nombreEmpresa = scanner.nextLine();
+
+    System.out.println("Ingrese la dirección del trabajo:");
+    String direccionEmpresa = scanner.nextLine();
+
+    // Solicitar teléfono de la empresa
+    HashMap<String, String> telefonosEmpresa = new HashMap<>();
+    System.out.println("Ingrese el tipo de teléfono de la empresa (Móvil, Oficina):");
+    String tipoTelf = scanner.nextLine();
+    System.out.println("Ingrese el número de teléfono:");
+    String numTelf = scanner.nextLine();
+    telefonosEmpresa.put(tipoTelf, numTelf);
+
+    // Solicitar email de la empresa
+    HashMap<String, String> emailsEmpresa = new HashMap<>();
+    System.out.println("Ingrese el tipo de email de la empresa (Ejecutivo):");
+    String tipoEmail = scanner.nextLine();
+    System.out.println("Ingrese el correo electrónico:");
+    String correoEmail = scanner.nextLine();
+    emailsEmpresa.put(tipoEmail, correoEmail);
+
+    System.out.println("¿Desea asignar un director a esta empresa? (s/n):");
+    String respuesta = scanner.nextLine();
+
+    Director director = null; // Inicializamos como null para verificar más adelante
+
+    if (respuesta.equalsIgnoreCase("s")) {
+ 
+        System.out.println("Ingrese el nombre del director:");
+        String nombreDirector = scanner.nextLine();
+
+        System.out.println("Ingrese el cargo del director:");
+        String cargoDirector = scanner.nextLine();
+
+        // Solicitar telefonos del director
+        HashMap<String, String> telefonosDirector = new HashMap<>();
+        System.out.println("Ingrese el tipo de teléfono del director (Personal, Ejecutivo):");
+        String tipoTelfDirector = scanner.nextLine();
+        System.out.println("Ingrese el número de teléfono del director:");
+        String numTelfDirector = scanner.nextLine();
+        telefonosDirector.put(tipoTelfDirector, numTelfDirector);
+
+        // Solicitar emails del director
+        HashMap<String, String> emailsDirector = new HashMap<>();
+        System.out.println("Ingrese el tipo de email del director (Personal, Ejecutivo):");
+        String tipoEmailDirector = scanner.nextLine();
+        System.out.println("Ingrese el correo electrónico del director:");
+        String correoEmailDirector = scanner.nextLine();
+        emailsDirector.put(tipoEmailDirector, correoEmailDirector);
+
+        // Crear instancia de Director
+        director = new Director(nombreDirector, cargoDirector, telefonosDirector, emailsDirector);
+    }
+
+    // Crear objeto Empresa
+    Empresa empresa;
+    if (director != null) {
+        empresa = new Empresa(nombreEmpresa, direccionEmpresa, director);
+    } else {
+        empresa = new Empresa(nombreEmpresa, direccionEmpresa);
+    }
+
+    empresa.getTelef().putAll(telefonosEmpresa);
+    empresa.getEmails().putAll(emailsEmpresa);
+
+    contactos.addLast(empresa);
+    System.out.println("Empresa añadida exitosamente.");
+}
+
+    public void guardarContactos(String archivo) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo))) {
+            NodoCircularDoble<Contacto> actual = contactos.miCabecera;
+            if (actual != null) {
+                do {
+                    oos.writeObject(actual.dato);
+                    actual = actual.siguiente;
+                } while (actual != contactos.miCabecera);
+            }
+            System.out.println("Contactos guardados exitosamente como binarios.");
+        } catch (IOException e) {
+            System.err.println("Error al guardar contactos: " + e.getMessage());
+        }
+    }
+
+    public void cargarContactos(String archivo) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(archivo))) {
+            while (true) {
+                try {
+                    Contacto contacto = (Contacto) ois.readObject();
+                    contactos.addLast(contacto);
+                } catch (EOFException e) {
+                    break; // Fin del archivo
+                }
+            }
+            System.out.println("Contactos cargados exitosamente desde archivo binario.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error al cargar contactos: " + e.getMessage());
+        }
+    }
 
 }

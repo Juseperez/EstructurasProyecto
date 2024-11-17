@@ -16,26 +16,22 @@ public class Persona extends Contacto{
     
     //Atributos de la clase persona
     public Date fechaNacimiento;
-    public String identificacion;
     public HashMap<String,String> redesSociales;
     
+    public Persona(String nombre){
+        super(nombre);
+    }
+    
     //Constructor de la clase persona
-    public Persona(String nombre,String identificacion, Date fechaNacimiento){
+    public Persona(String nombre, Date fechaNacimiento){
         
         super(nombre);
-        this.identificacion = identificacion;
         this.fechaNacimiento = fechaNacimiento;
         this.redesSociales = new HashMap<> ();
     }
     
     // Metodos de la clase persona
-    public String getIdentificacion() {
-        return identificacion;
-    }
 
-    public void setIdentificacion(String identificacion) {
-        this.identificacion = identificacion;
-    }
     public Date getFechaNacimiento(){
         return fechaNacimiento;
     }
@@ -56,7 +52,6 @@ public class Persona extends Contacto{
     public void mostrarInformacion() {
         System.out.println("Nombre de la persona: " + getNombre()+" \n");
         
-        System.out.println("Identificacion de la persona: "+ identificacion+" \n");
         
         System.out.println("Fecha de nacimiento: " + fechaNacimiento+" \n");
         
@@ -75,11 +70,14 @@ public class Persona extends Contacto{
             System.out.println(plataforma + ": " + usuario);
         });
         
+        System.out.println("Fotos:");
+        mostrarFotos();
+
+        System.out.println("Fechas de interés:");
+        getFechasDeInteres().forEach((descripcion, fecha) -> {
+            System.out.println(descripcion + ": " + fecha);
+        });
     }
     
-    @Override
-    public String getIdentificador() {
-        return identificacion; // Retorna la identificación única
-    }
     
 }

@@ -47,18 +47,18 @@ public class CustomListaCircularEnlazadaDoble<E> {
         
     }
 
-    // Método para eliminar un contacto específico
+   // Método para eliminar un contacto específico
     public boolean eliminar(Contacto contacto) {
         if (miCabecera == null) {
             System.out.println("La lista esta vacia. No se puede eliminar.");
             return false;
         }
-        
+
         NodoCircularDoble<Contacto> actual = miCabecera;
 
         // Recorremos la lista buscando el nodo con el contacto
         do {
-            if (actual.dato.equals(contacto)) {
+            if (actual.dato.equals(contacto)) { // Comparamos por igualdad
                 if (actual == miCabecera && tamanio == 1) {
                     // Si solo hay un elemento en la lista
                     miCabecera = null;
@@ -82,13 +82,12 @@ public class CustomListaCircularEnlazadaDoble<E> {
                 System.out.println("Contacto eliminado: " + contacto.getNombre());
                 return true;
             }
-            actual = actual.siguiente;
+            actual = actual.siguiente; // Avanzamos al siguiente nodo
         } while (actual != miCabecera);
 
-        System.out.println("Contacto no encontrado: " + contacto);
+        System.out.println("Contacto no encontrado.");
         return false;
-    }    
-    
+    } 
     // Metodos para poder navegar por la lista
     
     public void avanzar(){
