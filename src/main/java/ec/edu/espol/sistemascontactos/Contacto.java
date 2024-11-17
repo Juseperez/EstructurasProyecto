@@ -9,13 +9,24 @@ import java.util.HashMap;
 /**
  *
  */
-public class Contacto {
+public abstract class Contacto {
        private String nombre;
        private HashMap<String,String> telef;
        private HashMap<String,Direccion> direccion;
        private HashMap<String, Contacto> contactosRelacionados;
        private HashMap<String,String> emails;
        private HashMap<String, String> redesSociales;
+
+    public Contacto(String nombre, HashMap<String, String> telef, HashMap<String, Direccion> direccion, HashMap<String, Contacto> contactosRelacionados, HashMap<String, String> emails, HashMap<String, String> redesSociales) {
+        this.nombre = nombre;
+        this.telef = telef;
+        this.direccion = direccion;
+        this.contactosRelacionados = contactosRelacionados;
+        this.emails = emails;
+        this.redesSociales = redesSociales;
+    }
+       
+       
 
     public String getNombre() {
         return nombre;
@@ -44,7 +55,6 @@ public class Contacto {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-       
        
     
 }

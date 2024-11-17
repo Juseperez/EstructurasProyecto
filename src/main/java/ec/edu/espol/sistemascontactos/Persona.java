@@ -19,9 +19,9 @@ public class Persona extends Contacto{
     public HashMap<String,String> redesSociales;
     
     //Constructor de la clase persona
-    public Persona(String nombre, Date fechaNacimiento){
+    public Persona(String nombre, HashMap<String, String> telef, HashMap<String, Direccion> direccion, HashMap<String, Contacto> contactosRelacionados, HashMap<String, String> emails, HashMap<String, String> redesSociales, Date fechaNacimiento){
         
-        super(nombre);
+        super(nombre,telef,direccion,contactosRelacionados,emails,redesSociales);
         this.fechaNacimiento = fechaNacimiento;
         this.redesSociales = new HashMap<> ();
     }
