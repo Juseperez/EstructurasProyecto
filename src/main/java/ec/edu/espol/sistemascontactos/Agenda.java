@@ -178,6 +178,16 @@ public class Agenda {
             respuesta = sc.nextLine();
         }
 
+        System.out.println("¿Desea agregar fotos? (s/n):");
+        if (sc.nextLine().equalsIgnoreCase("s")) {
+            do {
+                System.out.println("Ruta de la foto:");
+                String foto = sc.nextLine();
+                persona.agregarFoto(foto);
+                System.out.println("¿Desea agregar otra foto? (s/n):");
+            } while (sc.nextLine().equalsIgnoreCase("s"));
+        }
+
         // Agregar el contacto a la lista
         contactos.addLast(persona);
         System.out.println("Contacto creado y agregado a la lista");

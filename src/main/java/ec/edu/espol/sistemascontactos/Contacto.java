@@ -63,6 +63,12 @@ public abstract class Contacto {
     public void agregarFoto(String ruta) {
         fotos.add(ruta);
     }
+    public void mostrarFotos() {
+        System.out.println("Fotos:");
+        for (int i = 0; i < fotos.size(); i++) {
+            System.out.println(i + ": " + fotos.get(i));
+        }
+    }
     public String eliminarFoto(int indice) {
         try {
             return fotos.remove(indice);
