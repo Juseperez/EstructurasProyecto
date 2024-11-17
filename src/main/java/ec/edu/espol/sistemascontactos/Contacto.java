@@ -87,6 +87,8 @@ public abstract class Contacto implements Serializable{
     }
     public abstract void mostrarInformacion();
 
+
+
     public ArrayListPropio<String> getFotos() {
         return fotos;
     }
@@ -94,6 +96,5 @@ public abstract class Contacto implements Serializable{
     public HashMap<String, String> getFechasDeInteres() {
         return fechasDeInteres;
     }   
-
     
 }
