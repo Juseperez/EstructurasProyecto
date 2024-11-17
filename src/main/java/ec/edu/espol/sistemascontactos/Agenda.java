@@ -183,5 +183,78 @@ public class Agenda {
         System.out.println("Contacto creado y agregado a la lista");
     }
     
+   public void añadirContactoEmpresa() {
+    Scanner scanner = new Scanner(System.in);
+
+    // Solicitar datos de la empresa
+    System.out.println("Ingrese el nombre de la empresa:");
+    String nombreEmpresa = scanner.nextLine();
+
+    System.out.println("Ingrese la dirección del trabajo:");
+    String direccionEmpresa = scanner.nextLine();
+
+    // Solicitar teléfono de la empresa
+    HashMap<String, String> telefonosEmpresa = new HashMap<>();
+    System.out.println("Ingrese el tipo de teléfono de la empresa (Móvil, Oficina):");
+    String tipoTelf = scanner.nextLine();
+    System.out.println("Ingrese el número de teléfono:");
+    String numTelf = scanner.nextLine();
+    telefonosEmpresa.put(tipoTelf, numTelf);
+
+    // Solicitar email de la empresa
+    HashMap<String, String> emailsEmpresa = new HashMap<>();
+    System.out.println("Ingrese el tipo de email de la empresa (Ejecutivo):");
+    String tipoEmail = scanner.nextLine();
+    System.out.println("Ingrese el correo electrónico:");
+    String correoEmail = scanner.nextLine();
+    emailsEmpresa.put(tipoEmail, correoEmail);
+
+    System.out.println("¿Desea asignar un director a esta empresa? (s/n):");
+    String respuesta = scanner.nextLine();
+
+    Director director = null; // Inicializamos como null para verificar más adelante
+
+    if (respuesta.equalsIgnoreCase("s")) {
+ 
+        System.out.println("Ingrese el nombre del director:");
+        String nombreDirector = scanner.nextLine();
+
+        System.out.println("Ingrese el cargo del director:");
+        String cargoDirector = scanner.nextLine();
+
+        // Solicitar telefonos del director
+        HashMap<String, String> telefonosDirector = new HashMap<>();
+        System.out.println("Ingrese el tipo de teléfono del director (Personal, Ejecutivo):");
+        String tipoTelfDirector = scanner.nextLine();
+        System.out.println("Ingrese el número de teléfono del director:");
+        String numTelfDirector = scanner.nextLine();
+        telefonosDirector.put(tipoTelfDirector, numTelfDirector);
+
+        // Solicitar emails del director
+        HashMap<String, String> emailsDirector = new HashMap<>();
+        System.out.println("Ingrese el tipo de email del director (Personal, Ejecutivo):");
+        String tipoEmailDirector = scanner.nextLine();
+        System.out.println("Ingrese el correo electrónico del director:");
+        String correoEmailDirector = scanner.nextLine();
+        emailsDirector.put(tipoEmailDirector, correoEmailDirector);
+
+        // Crear instancia de Director
+        director = new Director(nombreDirector, cargoDirector, telefonosDirector, emailsDirector);
+    }
+
+    // Crear objeto Empresa
+    Empresa empresa;
+    if (director != null) {
+        empresa = new Empresa(nombreEmpresa, direccionEmpresa, director);
+    } else {
+        empresa = new Empresa(nombreEmpresa, direccionEmpresa);
+    }
+
+    empresa.getTelef().putAll(telefonosEmpresa);
+    empresa.getEmails().putAll(emailsEmpresa);
+
+    contactos.addLast(empresa);
+    System.out.println("Empresa añadida exitosamente.");
+}
 
 }

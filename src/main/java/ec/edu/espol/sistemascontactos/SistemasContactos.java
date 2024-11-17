@@ -31,7 +31,7 @@ public class SistemasContactos{
                     gestor.crearContactoPersona();
                     break;
                 case 2:
-                    gestor.agregarEmpresa();
+                    gestor.añadirContactoEmpresa();
                     break;
                 case 3:
                     gestor.mostrarContactosAdelante();

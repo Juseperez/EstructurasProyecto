@@ -19,6 +19,10 @@ public class Persona extends Contacto{
     public String identificacion;
     public HashMap<String,String> redesSociales;
     
+    public Persona(String nombre){
+        super(nombre);
+    }
+    
     //Constructor de la clase persona
     public Persona(String nombre,String identificacion, Date fechaNacimiento){
         
