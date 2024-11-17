@@ -18,13 +18,13 @@ public abstract class Contacto {
        private HashMap<String, String> redesSociales;
        
 
-    public Contacto(String nombre, HashMap<String, String> telef, HashMap<String, Direccion> direccion, HashMap<String, Contacto> contactosRelacionados, HashMap<String, String> emails, HashMap<String, String> redesSociales) {
+    public Contacto(String nombre) {
         this.nombre = nombre;
-        this.telef = telef;
-        this.direccion = direccion;
-        this.contactosRelacionados = contactosRelacionados;
-        this.emails = emails;
-        this.redesSociales = redesSociales;
+        this.telef = new HashMap<>();
+        this.direccion = new HashMap<>();
+        this.contactosRelacionados = new HashMap<>();
+        this.emails = new HashMap<>();
+        this.redesSociales = new HashMap<>();
     }
        
        
@@ -56,6 +56,7 @@ public abstract class Contacto {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-       
+    public abstract void mostrarInformacion();
+    public abstract String getIdentificador();   
     
 }

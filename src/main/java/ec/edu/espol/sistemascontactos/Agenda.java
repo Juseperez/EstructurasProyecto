@@ -4,6 +4,7 @@
  */
 package ec.edu.espol.sistemascontactos;
 
+import java.util.Date;
 import java.util.Scanner;
 import java.util.HashMap;
 /**
@@ -12,7 +13,10 @@ import java.util.HashMap;
 public class Agenda {
     Scanner scanner = new Scanner(System.in);
     private CustomListaCircularEnlazadaDoble<Contacto> contactos;
-
+    
+    public Agenda(){
+        this.contactos = new CustomListaCircularEnlazadaDoble<>();
+    }
     
     public void agregarContacto() {
         HashMap <String,String> telef=null;
@@ -32,7 +36,7 @@ public class Agenda {
             System.out.println("Ingresar nombre: ");
             nombre = scanner.nextLine();
             do{
-            System.out.println("Ingresar el número de teléfono: ");
+            System.out.println("Ingresar el numero de telefono: ");
             value = scanner.nextLine();
             System.out.println("¿Qué tipo de telefono es? (De trabajo, casa...): ");
             tipo = scanner.nextLine();
@@ -67,6 +71,116 @@ public class Agenda {
         //Contacto contacto
         //contactos.addLast(contacto);
         //System.out.println("Contacto agregado: " + contacto);
+    }
+    public void agregarEmpresa(){
+        
+    };
+    public void mostrarContactosAdelante() {
+        if (contactos == null || contactos.mostrarPosicionContactoActual() == null) {
+            System.out.println("La lista no tiene elementos.");
+            return;
+        }
+        contactos.avanzar();
+        Contacto contactoActual = contactos.mostrarPosicionContactoActual();
+
+        if (contactoActual != null) {
+            contactoActual.mostrarInformacion();
+        } else {
+            System.out.println("No hay un contacto actual para mostrar.");
+        }
+    }
+    public void mostrarContactosAtras() {
+        // Verificar si la lista está vacía
+        if (contactos == null || contactos.mostrarPosicionContactoActual() == null) {
+            System.out.println("La lista no tiene elementos.");
+            return;
+        }
+
+        // Retroceder en la lista y mostrar información del contacto actual
+        contactos.anterior();
+        Contacto contactoActual = contactos.mostrarPosicionContactoActual();
+
+        if (contactoActual != null) {
+            contactoActual.mostrarInformacion();
+        } else {
+            System.out.println("No hay un contacto actual para mostrar.");
+        }
+    }
+    public void eliminarContacto() {
+        // Solicitar al usuario el identificador del contacto
+        System.out.println("Ingrese el nombre o identificacion del contacto a eliminar:");
+        String identificador = scanner.nextLine();
+
+        // Verificamos si la lista de contactos está vacía
+        if (contactos == null || contactos.mostrarPosicionContactoActual() == null) {
+            System.out.println("No hay contactos en la agenda para eliminar.");
+            return;
+        }
+
+        // Variable para indicar si se encontró y eliminó el contacto
+        boolean eliminado = false;
+
+        // Recorremos la lista circular para buscar el contacto
+        NodoCircularDoble<Contacto> actual = contactos.miCabecera; // Nodo actual
+        do {
+            Contacto contacto = actual.dato; // Obtenemos el contacto del nodo actual
+
+            // Verificamos si el identificador coincide (nombre o identificación única)
+            if (contacto.getNombre().equalsIgnoreCase(identificador) || 
+                contacto.getIdentificador().equals(identificador)) {
+
+                // Llamamos al método eliminar de CustomListaCircularEnlazadaDoble
+                eliminado = contactos.eliminar(contacto);
+                break; // Salimos del bucle después de eliminar
+            }
+            actual = actual.siguiente; // Avanzamos al siguiente nodo
+        } while (actual != contactos.miCabecera); // Mientras no completemos el recorrido
+
+        // Mostramos el resultado al usuario
+        if (eliminado) {
+            System.out.println("El contacto fue eliminado con exito.");
+        } else {
+            System.out.println("El contacto no fue encontrado.");
+        }
+    }
+    // Crear un contacto de tipo Persona
+    public void crearContactoPersona() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Ingrese el nombre de la persona:");
+        String nombre = sc.nextLine();
+        
+        System.out.println("Ingrese su identificacion:");
+        String identificacion = sc.nextLine();
+        
+
+        System.out.println("Ingrese la fecha de nacimiento (yyyy-MM-dd):");
+        Date fechaNacimiento;
+        try {
+            fechaNacimiento = java.sql.Date.valueOf(sc.nextLine());
+        } catch (Exception e) {
+            System.out.println("Formato de fecha invalido. Intente de nuevo.");
+            return;
+        }
+
+        Persona persona = new Persona(nombre, identificacion, fechaNacimiento);
+
+        System.out.println("Desea agregar redes sociales (s/n):");
+        String respuesta = sc.nextLine();
+        while (respuesta.equalsIgnoreCase("s")) {
+            System.out.println("Ingrese la plataforma (Ej: Instagram):");
+            String plataforma = sc.nextLine();
+            System.out.println("Ingrese el usuario:");
+            String usuario = sc.nextLine();
+            persona.agregarRedSocial(plataforma, usuario);
+
+            System.out.println("Desea agregar otra red social (s/n):");
+            respuesta = sc.nextLine();
+        }
+
+        // Agregar el contacto a la lista
+        contactos.addLast(persona);
+        System.out.println("Contacto creado y agregado a la lista");
     }
     
 

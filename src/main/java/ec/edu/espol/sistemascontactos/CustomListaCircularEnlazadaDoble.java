@@ -11,7 +11,7 @@ package ec.edu.espol.sistemascontactos;
  */
 public class CustomListaCircularEnlazadaDoble<E> {
     
-    private NodoCircularDoble<Contacto> miCabecera;
+    public NodoCircularDoble<Contacto> miCabecera;
     private NodoCircularDoble<Contacto> nodoNavegacion;
     private int tamanio;
     
@@ -48,12 +48,12 @@ public class CustomListaCircularEnlazadaDoble<E> {
     }
 
     // Método para eliminar un contacto específico
-    public boolean eliminar(E contacto) {
+    public boolean eliminar(Contacto contacto) {
         if (miCabecera == null) {
-            System.out.println("La lista está vacía. No se puede eliminar.");
+            System.out.println("La lista esta vacia. No se puede eliminar.");
             return false;
         }
-
+        
         NodoCircularDoble<Contacto> actual = miCabecera;
 
         // Recorremos la lista buscando el nodo con el contacto
@@ -79,7 +79,7 @@ public class CustomListaCircularEnlazadaDoble<E> {
                     }
                 }
                 tamanio--;
-                System.out.println("Contacto eliminado: " + contacto);
+                System.out.println("Contacto eliminado: " + contacto.getNombre());
                 return true;
             }
             actual = actual.siguiente;
@@ -108,25 +108,25 @@ public class CustomListaCircularEnlazadaDoble<E> {
         
     }
     
-    public Contacto mostrarPosicionContactoActual(){
-        
-        if(nodoNavegacion != null){
+    public Contacto mostrarPosicionContactoActual() {
+        if (nodoNavegacion != null) {
             return nodoNavegacion.dato;
+        } else {
+            return null; // Lista vacía o nodoNavegacion no inicializado
         }
-        return null;
     }
     
     public void mostrarContactos(){
         if (miCabecera == null) {
-            System.out.println("La lista está vacía");
+            System.out.println("La lista esta vacia");
             return;
         }
         NodoCircularDoble<Contacto> actual = miCabecera;
         do {
-            System.out.print(actual.dato + " <-> ");
+            actual.dato.mostrarInformacion();
             actual = actual.siguiente;
         } while (actual != miCabecera);
-        System.out.println("(cabeza)");
+        System.out.println("cabeza");
     }
 
 }

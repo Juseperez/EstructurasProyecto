@@ -16,18 +16,26 @@ public class Persona extends Contacto{
     
     //Atributos de la clase persona
     public Date fechaNacimiento;
+    public String identificacion;
     public HashMap<String,String> redesSociales;
     
     //Constructor de la clase persona
-    public Persona(String nombre, HashMap<String, String> telef, HashMap<String, Direccion> direccion, HashMap<String, Contacto> contactosRelacionados, HashMap<String, String> emails, HashMap<String, String> redesSociales, Date fechaNacimiento){
+    public Persona(String nombre,String identificacion, Date fechaNacimiento){
         
-        super(nombre,telef,direccion,contactosRelacionados,emails,redesSociales);
+        super(nombre);
+        this.identificacion = identificacion;
         this.fechaNacimiento = fechaNacimiento;
         this.redesSociales = new HashMap<> ();
     }
     
     // Metodos de la clase persona
-    
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
+    }
     public Date getFechaNacimiento(){
         return fechaNacimiento;
     }
@@ -44,14 +52,17 @@ public class Persona extends Contacto{
         redesSociales.remove(plataforma);
     }
     
-    public void mostrarInformacionPersona() {
+    @Override
+    public void mostrarInformacion() {
         System.out.println("Nombre de la persona: " + getNombre()+" \n");
+        
+        System.out.println("Identificacion de la persona: "+ identificacion+" \n");
         
         System.out.println("Fecha de nacimiento: " + fechaNacimiento+" \n");
         
         
         // Muestra los teléfonos
-        System.out.println("Teléfonos:");
+        System.out.println("Telefonos:");
         getTelef().forEach((tipo, numero) -> System.out.println(tipo + ": " + numero));
 
         
@@ -66,5 +77,9 @@ public class Persona extends Contacto{
         
     }
     
+    @Override
+    public String getIdentificador() {
+        return identificacion; // Retorna la identificación única
+    }
     
 }
