@@ -20,7 +20,8 @@ public class SistemasContactos{
             System.out.println("3. Mostrar Contactos Adelante");
             System.out.println("4. Mostrar Contactos Atras");
             System.out.println("5. Eliminar Contacto");
-            System.out.println("6. Salir");
+            System.out.println("6. Guardar Contactos");
+            System.out.println("7. Salir");
             System.out.print("Seleccione una opcion: ");
 
             int opcion = scanner.nextInt();
@@ -43,7 +44,11 @@ public class SistemasContactos{
                     gestor.eliminarContacto();
                     break;
                 case 6:
+                    gestor.guardarContactos("contactos.txt");
+                    break;
+                case 7:
                     System.out.println("Saliendo del programa...");
+                    gestor.guardarContactos("contactos.txt");
                     return;
                 default:
                     System.out.println("Opción inválida.");

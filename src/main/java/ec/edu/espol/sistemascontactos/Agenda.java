@@ -4,6 +4,9 @@
  */
 package ec.edu.espol.sistemascontactos;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -279,4 +282,19 @@ public class Agenda {
     System.out.println("Empresa añadida exitosamente.");
 }
 
+    public void guardarContactos(String archivo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo))) {
+            NodoCircularDoble<Contacto> actual = contactos.miCabecera;
+            if (actual != null) {
+                do {
+                    writer.write(actual.dato.toString()); // Serializar contacto
+                    writer.newLine();
+                    actual = actual.siguiente;
+                } while (actual != contactos.miCabecera);
+            }
+            System.out.println("Contactos guardados exitosamente.");
+        } catch (IOException e) {
+            System.err.println("Error al guardar contactos: " + e.getMessage());
+        }
+    }
 }
