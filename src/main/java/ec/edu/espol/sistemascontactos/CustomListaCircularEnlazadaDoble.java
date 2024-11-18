@@ -4,12 +4,14 @@
  */
 package ec.edu.espol.sistemascontactos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author erick
  * @param <E>
  */
-public class CustomListaCircularEnlazadaDoble<E> {
+public class CustomListaCircularEnlazadaDoble<E> implements Serializable{
     
     public NodoCircularDoble<Contacto> miCabecera;
     private NodoCircularDoble<Contacto> nodoNavegacion;

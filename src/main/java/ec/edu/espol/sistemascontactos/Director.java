@@ -8,9 +8,10 @@ package ec.edu.espol.sistemascontactos;
  *
  * @author ricky
  */
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Director extends Persona {
+public class Director extends Persona implements Serializable{
     private String cargo; // Cargo específico del director (Ejemplo: "Gerente General")
 
     // Constructor con solo nombre

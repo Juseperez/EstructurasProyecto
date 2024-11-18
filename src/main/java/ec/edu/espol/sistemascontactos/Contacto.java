@@ -13,7 +13,6 @@ import java.util.HashMap;
 public abstract class Contacto implements Serializable{
        private String nombre;
        private HashMap<String,String> telef;
-       private HashMap<String,Direccion> direccion;
        private HashMap<String, Contacto> contactosRelacionados;
        private HashMap<String,String> emails;
        private HashMap<String, String> redesSociales;
@@ -25,7 +24,6 @@ public abstract class Contacto implements Serializable{
     public Contacto(String nombre) {
         this.nombre = nombre;
         this.telef = new HashMap<>();
-        this.direccion = new HashMap<>();
         this.contactosRelacionados = new HashMap<>();
         this.emails = new HashMap<>();
         this.redesSociales = new HashMap<>();
@@ -41,10 +39,6 @@ public abstract class Contacto implements Serializable{
 
     public HashMap<String, String> getTelef() {
         return telef;
-    }
-
-    public HashMap<String, Direccion> getDireccion() {
-        return direccion;
     }
 
     public HashMap<String, Contacto> getContactosRelacionados() {

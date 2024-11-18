@@ -12,6 +12,7 @@ import java.util.Scanner;
 public class SistemasContactos{
     public static void main(String[] args) {
         Agenda gestor = new Agenda();
+        gestor.cargarContactos("contactos.txt");
         Scanner scanner = new Scanner(System.in);
 
         while (true) {

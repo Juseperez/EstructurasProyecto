@@ -4,12 +4,14 @@
  */
 package ec.edu.espol.sistemascontactos;
 
+import java.io.Serializable;
+
 /**
  *
  * @author erick
  * @param <E>
  */
-public class NodoCircularDoble<E> {
+public class NodoCircularDoble<E> implements Serializable{
     
     public E dato;
     public NodoCircularDoble<E> siguiente;

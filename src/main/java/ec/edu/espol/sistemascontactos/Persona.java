@@ -4,6 +4,7 @@
  */
 package ec.edu.espol.sistemascontactos;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -12,7 +13,7 @@ import java.util.Scanner;
  *
  * @author erick
  */
-public class Persona extends Contacto{
+public class Persona extends Contacto implements Serializable{
     
     //Atributos de la clase persona
     public Date fechaNacimiento;

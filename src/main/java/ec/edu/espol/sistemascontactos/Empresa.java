@@ -4,6 +4,7 @@
  */
 package ec.edu.espol.sistemascontactos;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ import java.util.Scanner;
  *
  * @author ricky
  */
-public class Empresa extends Contacto{
+public class Empresa extends Contacto implements Serializable{
     
     private String direccionTrabajo;
     private Contacto contactoDirector;

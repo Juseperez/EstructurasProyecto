@@ -1,6 +1,8 @@
 package ec.edu.espol.sistemascontactos;
 
-public class ArrayListPropio<E> {
+import java.io.Serializable;
+
+public class ArrayListPropio<E> implements Serializable {
     private E[] elementos;
     private int tamanio;
 
