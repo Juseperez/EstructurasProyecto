@@ -187,6 +187,102 @@ public class Agenda {
         contactos.addLast(persona);
         System.out.println("Contacto creado y agregado a la lista");
     }
+    
+     public void editarDatosPersona() {
+        if (contactos == null || contactos.mostrarPosicionContactoActual() == null) {
+            System.out.println("No hay contactos disponibles para editar.");
+            return;
+        }
+
+        System.out.println("Ingrese el nombre de la persona que desea editar:");
+        String nombrePersona = scanner.nextLine();
+        Contacto contactoEncontrado = null;
+
+        NodoCircularDoble<Contacto> actual = contactos.miCabecera;
+        if (actual == null) {
+            System.out.println("No hay contactos en la lista.");
+            return;
+        }
+
+        do {
+            if (actual.dato instanceof Persona && actual.dato.getNombre().equalsIgnoreCase(nombrePersona)) {
+                contactoEncontrado = actual.dato;
+                break;
+            }
+            actual = actual.siguiente;
+        } while (actual != contactos.miCabecera);
+
+        if (contactoEncontrado == null) {
+            System.out.println("No se encontró una persona con el nombre especificado.");
+            return;
+        }
+
+        Persona persona = (Persona) contactoEncontrado;
+        boolean continuarEdicion = true;
+
+        while (continuarEdicion) {
+            System.out.println("\n¿Qué desea editar?");
+            System.out.println("1. Nombre de la persona");
+            System.out.println("2. Fecha de nacimiento");
+            System.out.println("3. Teléfonos de la persona");
+            System.out.println("4. Emails de la persona");
+            System.out.println("5. Redes sociales");
+            System.out.println("6. Salir");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese el nuevo nombre de la persona:");
+                    String nuevoNombre = scanner.nextLine();
+                    persona.setNombre(nuevoNombre);
+                    break;
+                case 2:
+                    System.out.println("Ingrese la nueva fecha de nacimiento (yyyy-MM-dd):");
+                    try {
+                        Date nuevaFechaNacimiento = java.sql.Date.valueOf(scanner.nextLine());
+                        persona.setFechanacimiento(nuevaFechaNacimiento);
+                    } catch (Exception e) {
+                        System.out.println("Formato de fecha inválido. Intente de nuevo.");
+                    }
+                    break;
+                case 3:
+                    HashMap<String, String> nuevosTelefonos = new HashMap<>();
+                    System.out.println("Ingrese el tipo de teléfono (Móvil, Oficina, etc.):");
+                    String tipo = scanner.nextLine();
+                    System.out.println("Ingrese el número de teléfono:");
+                    String numero = scanner.nextLine();
+                    nuevosTelefonos.put(tipo, numero);
+                    persona.getTelef().clear();
+                    persona.getTelef().putAll(nuevosTelefonos);
+                    break;
+                case 4:
+                    HashMap<String, String> nuevosEmails = new HashMap<>();
+                    System.out.println("Ingrese el tipo de email (Personal, Trabajo, etc.):");
+                    String tipoEmail = scanner.nextLine();
+                    System.out.println("Ingrese el email:");
+                    String email = scanner.nextLine();
+                    nuevosEmails.put(tipoEmail, email);
+                    persona.getEmails().clear();
+                    persona.getEmails().putAll(nuevosEmails);
+                    break;
+                case 5:
+                    System.out.println("Ingrese la plataforma de la red social (Ej: Instagram, Twitter, etc.):");
+                    String plataforma = scanner.nextLine();
+                    System.out.println("Ingrese el usuario:");
+                    String usuario = scanner.nextLine();
+                    persona.agregarRedSocial(plataforma, usuario);
+                    break;
+                case 6:
+                    continuarEdicion = false;
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        }
+    }
 
     
    public void añadirContactoEmpresa() {
@@ -293,6 +389,140 @@ public class Agenda {
             //System.err.println("Error al cargar contactos: " + e.getMessage());
         }
     }
+    
+    public void editarDatosEmpresa() {
+        if (contactos == null || contactos.mostrarPosicionContactoActual() == null) {
+            System.out.println("No hay contactos disponibles para editar.");
+            return;
+        }
 
+        System.out.println("Ingrese el nombre de la empresa que desea editar:");
+        String nombreEmpresa = scanner.nextLine();
+        Contacto contactoEncontrado = null;
 
+        NodoCircularDoble<Contacto> actual = contactos.miCabecera;
+        if (actual == null) {
+            System.out.println("No hay contactos en la lista.");
+            return;
+        }
+
+        do {
+            if (actual.dato instanceof Empresa && actual.dato.getNombre().equalsIgnoreCase(nombreEmpresa)) {
+                contactoEncontrado = actual.dato;
+                break;
+            }
+            actual = actual.siguiente;
+        } while (actual != contactos.miCabecera);
+
+        if (contactoEncontrado == null) {
+            System.out.println("No se encontró una empresa con el nombre especificado.");
+            return;
+        }
+
+        Empresa empresa = (Empresa) contactoEncontrado;
+        boolean continuarEdicion = true;
+
+        while (continuarEdicion) {
+            System.out.println("\n¿Qué desea editar?");
+            System.out.println("1. Nombre de la empresa");
+            System.out.println("2. Dirección de la empresa");
+            System.out.println("3. Teléfonos de la empresa");
+            System.out.println("4. Emails de la empresa");
+            System.out.println("5. Información del director");
+            System.out.println("6. Salir");
+            System.out.print("Seleccione una opción: ");
+
+            int opcion = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("Ingrese el nuevo nombre de la empresa:");
+                    String nuevoNombre = scanner.nextLine();
+                    empresa.setNombre(nuevoNombre);
+                    break;
+                case 2:
+                    System.out.println("Ingrese la nueva dirección de la empresa:");
+                    String nuevaDireccion = scanner.nextLine();
+                    empresa.setDireccionTrabajo(nuevaDireccion);
+                    break;
+                case 3:
+                    HashMap<String, String> nuevosTelefonos = new HashMap<>();
+                    System.out.println("Ingrese el tipo de teléfono (Móvil, Oficina, etc.):");
+                    String tipo = scanner.nextLine();
+                    System.out.println("Ingrese el número de teléfono:");
+                    String numero = scanner.nextLine();
+                    nuevosTelefonos.put(tipo, numero);
+                    empresa.editarTelefonosEmpresa(nuevosTelefonos);
+                    break;
+                case 4:
+                    HashMap<String, String> nuevosEmails = new HashMap<>();
+                    System.out.println("Ingrese el tipo de email (Ejecutivo, Personal, etc.):");
+                    String tipoEmail = scanner.nextLine();
+                    System.out.println("Ingrese el email:");
+                    String email = scanner.nextLine();
+                    nuevosEmails.put(tipoEmail, email);
+                    empresa.editarEmailsEmpresa(nuevosEmails);
+                    break;
+                case 5:
+                    if (empresa.getContactoDirector() != null) {
+                        System.out.println("\n¿Qué desea editar del director?");
+                        System.out.println("1. Nombre del director");
+                        System.out.println("2. Cargo del director");
+                        System.out.println("3. Teléfonos del director");
+                        System.out.println("4. Emails del director");
+                        System.out.println("5. Regresar");
+                        System.out.print("Seleccione una opción: ");
+
+                        int opcionDirector = scanner.nextInt();
+                        scanner.nextLine(); // Consumir el salto de línea
+
+                        switch (opcionDirector) {
+                            case 1:
+                                System.out.println("Ingrese el nuevo nombre del director:");
+                                String nuevoNombreDirector = scanner.nextLine();
+                                empresa.getContactoDirector().setNombre(nuevoNombreDirector);
+                                break;
+                            case 2:
+                                if (empresa.getContactoDirector() instanceof Director) {
+                                    System.out.println("Ingrese el nuevo cargo del director:");
+                                    String nuevoCargo = scanner.nextLine();
+                                    ((Director) empresa.getContactoDirector()).setCargo(nuevoCargo);
+                                }
+                                break;
+                            case 3:
+                                HashMap<String, String> nuevosTelefonosDirector = new HashMap<>();
+                                System.out.println("Ingrese el tipo de teléfono del director (Personal, Ejecutivo, etc.):");
+                                String tipoTelefonoDirector = scanner.nextLine();
+                                System.out.println("Ingrese el número de teléfono:");
+                                String numeroTelefonoDirector = scanner.nextLine();
+                                nuevosTelefonosDirector.put(tipoTelefonoDirector, numeroTelefonoDirector);
+                                empresa.editarTelefonosDirector(nuevosTelefonosDirector);
+                                break;
+                            case 4:
+                                HashMap<String, String> nuevosEmailsDirector = new HashMap<>();
+                                System.out.println("Ingrese el tipo de email del director (Personal, Ejecutivo, etc.):");
+                                String tipoEmailDirector = scanner.nextLine();
+                                System.out.println("Ingrese el email:");
+                                String emailDirector = scanner.nextLine();
+                                nuevosEmailsDirector.put(tipoEmailDirector, emailDirector);
+                                empresa.editarEmailsDirector(nuevosEmailsDirector);
+                                break;
+                            case 5:
+                                break;
+                            default:
+                                System.out.println("Opción no válida.");
+                        }
+                    } else {
+                        System.out.println("No se ha asignado un director a esta empresa.");
+                    }
+                    break;
+                case 6:
+                    continuarEdicion = false;
+                    break;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        }
+    }
 }

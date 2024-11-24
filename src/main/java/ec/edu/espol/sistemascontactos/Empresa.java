@@ -46,28 +46,6 @@ public class Empresa extends Contacto implements Serializable{
         this.contactoDirector = contactoDirector;
     }
     
-    public void mostrarInformacionEmpresa() {
-        System.out.println("Nombre de la Empresa: /n" + getNombre());
-        
-        System.out.println("Dirección de Trabajo: /n" + direccionTrabajo);
-        
-        
-        // Muestra los teléfonos
-        System.out.println("Telefonos:");
-        getTelef().forEach((tipo, numero) -> System.out.println(tipo + ": " + numero));
-
-        System.out.println("Emails:");
-        getEmails().forEach((tipo, email) -> System.out.println(tipo + ": " + email));
-
-        
-        if (contactoDirector != null) {
-            System.out.println("Director:");
-            System.out.println("Nombre: " + contactoDirector.getNombre());
-            contactoDirector.getTelef().forEach((tipo, numero) -> System.out.println(tipo + " Telefono: " + numero));
-            contactoDirector.getEmails().forEach((tipo, email) -> System.out.println(tipo + " Email: " + email));
-        }
-    }
-  
     @Override
     public void mostrarInformacion() {
     System.out.println("Empresa:");
@@ -84,18 +62,7 @@ public class Empresa extends Contacto implements Serializable{
     System.out.println("Emails:");
     for (String tipo : this.getEmails().keySet()) {
         System.out.println("  " + tipo + ": " + this.getEmails().get(tipo));
-    }
-
-    // Mostrar Fotos
-    System.out.println("Fotos:");
-        mostrarFotos();
-
-    // Mostrar Fechas de interés
-    System.out.println("Fechas de interés:");
-    getFechasDeInteres().forEach((descripcion, fecha) -> {
-        System.out.println(descripcion + ": " + fecha);
-    });
-
+    } 
     // Mostrar información del director si existe
     if (this.getContactoDirector() != null) {
         System.out.println("Director:");
@@ -103,6 +70,49 @@ public class Empresa extends Contacto implements Serializable{
     } else {
         System.out.println("No se ha asignado un director a esta empresa.");
     }
+    }
+    
+    // Método para editar la información de la empresa
+    public void editarInformacionEmpresa(String nuevoNombre, String nuevaDireccionTrabajo, HashMap<String, String> nuevosTelefonos, HashMap<String, String> nuevosEmails) {
+        setNombre(nuevoNombre);
+        setDireccionTrabajo(nuevaDireccionTrabajo);
+        getTelef().clear();
+        getTelef().putAll(nuevosTelefonos);
+        getEmails().clear();
+        getEmails().putAll(nuevosEmails);
+    }
+    
+    // Método para editar la información del director
+    public void editarContactoDirector(Contacto nuevoDirector) {
+        setContactoDirector(nuevoDirector);
+    }
+
+    // Método para editar teléfonos de la empresa
+    public void editarTelefonosEmpresa(HashMap<String, String> nuevosTelefonos) {
+        getTelef().clear();
+        getTelef().putAll(nuevosTelefonos);
+    }
+
+    // Método para editar emails de la empresa
+    public void editarEmailsEmpresa(HashMap<String, String> nuevosEmails) {
+        getEmails().clear();
+        getEmails().putAll(nuevosEmails);
+    }
+
+    // Método para editar teléfonos del director
+    public void editarTelefonosDirector(HashMap<String, String> nuevosTelefonos) {
+        if (contactoDirector != null) {
+            contactoDirector.getTelef().clear();
+            contactoDirector.getTelef().putAll(nuevosTelefonos);
+        }
+    }
+
+    // Método para editar emails del director
+    public void editarEmailsDirector(HashMap<String, String> nuevosEmails) {
+        if (contactoDirector != null) {
+            contactoDirector.getEmails().clear();
+            contactoDirector.getEmails().putAll(nuevosEmails);
+        }
     }
 
 

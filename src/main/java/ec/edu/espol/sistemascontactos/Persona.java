@@ -54,9 +54,8 @@ public class Persona extends Contacto implements Serializable{
         System.out.println("Nombre de la persona: " + getNombre()+" \n");
         
         
-        System.out.println("Fecha de nacimiento: " + fechaNacimiento+" \n");
-        
-        
+        System.out.println("Fecha de nacimiento: " + fechaNacimiento);
+       
         // Muestra los teléfonos
         System.out.println("Telefonos:");
         getTelef().forEach((tipo, numero) -> System.out.println(tipo + ": " + numero));
