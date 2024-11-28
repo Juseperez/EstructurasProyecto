@@ -13,7 +13,7 @@ import java.util.HashMap;
 public abstract class Contacto implements Serializable{
        private String nombre;
        private HashMap<String,String> telef;
-       private HashMap<String, Contacto> contactosRelacionados;
+       private CustomListaCircularEnlazadaDoble<Contacto> contactosRelacionados;
        private HashMap<String,String> emails;
        private HashMap<String, String> redesSociales;
        private ArrayListPropio<String> fotos;
@@ -24,7 +24,7 @@ public abstract class Contacto implements Serializable{
     public Contacto(String nombre) {
         this.nombre = nombre;
         this.telef = new HashMap<>();
-        this.contactosRelacionados = new HashMap<>();
+        this.contactosRelacionados = new CustomListaCircularEnlazadaDoble<>();
         this.emails = new HashMap<>();
         this.redesSociales = new HashMap<>();
         this.fotos = new ArrayListPropio<>();
@@ -41,7 +41,7 @@ public abstract class Contacto implements Serializable{
         return telef;
     }
 
-    public HashMap<String, Contacto> getContactosRelacionados() {
+    public CustomListaCircularEnlazadaDoble<Contacto> getContactosRelacionados() {
         return contactosRelacionados;
     }
 
@@ -89,6 +89,20 @@ public abstract class Contacto implements Serializable{
 
     public HashMap<String, String> getFechasDeInteres() {
         return fechasDeInteres;
-    }   
-    
+    }
+
+    public void agregarContactoAsociado(Contacto contacto) {
+        if (contacto != null && !this.getNombre().equals(contacto.getNombre())) {
+            this.contactosRelacionados.addLast(contacto);
+            contacto.agregarContactoAsociado(this); // Relación bidireccional
+        }
+    }
+
+    public void mostrarContactosAsociados() {
+        NodoCircularDoble<Contacto> actual = this.contactosRelacionados.getMiCabecera();
+        for (int i = 0; i < this.contactosRelacionados.size(); i++) {
+            System.out.println(actual.dato.getNombre());
+            actual = actual.siguiente;
+        }
+    }
 }

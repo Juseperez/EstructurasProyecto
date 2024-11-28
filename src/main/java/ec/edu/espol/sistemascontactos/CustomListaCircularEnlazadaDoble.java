@@ -130,6 +130,13 @@ public class CustomListaCircularEnlazadaDoble<E> implements Serializable{
         System.out.println("cabeza");
     }
 
+    public NodoCircularDoble<Contacto> getMiCabecera() {
+        return miCabecera;
+    }
+
+    public int size(){
+        return tamanio;
+    }
 }
 
     
