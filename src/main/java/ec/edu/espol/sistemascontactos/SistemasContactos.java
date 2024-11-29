@@ -27,8 +27,7 @@ public class SistemasContactos{
             System.out.println("7. Editar los datos de la Persona");
             System.out.println("8. Editar los datos de la Empresa");
             System.out.println("9. Eliminar Contacto");
-            System.out.println("10. Guardar Contactos");
-            System.out.println("11. Salir");
+            System.out.println("10. Salir");
             System.out.print("Seleccione una opcion:");
             int opcion = scanner.nextInt();
             scanner.nextLine();
@@ -134,11 +133,8 @@ public class SistemasContactos{
                     gestor.eliminarContacto();
                     
                     break;
+                
                 case 10:
-                    gestor.guardarContactos("contactos.txt");
-                   
-                    break;
-                case 11:
                     System.out.println("Saliendo del programa...");
                     gestor.guardarContactos("contactos.txt");
                     System.out.println("\n");
