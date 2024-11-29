@@ -157,7 +157,23 @@ public class Agenda {
             System.out.println("Desea agregar otro numero de telefono (s/n):");
             respuesta = sc.nextLine();
         }
+        
+        // Agregar direccion
+        System.out.println("Desea agregar una direccion (s/n):");
+        String direccion = sc.nextLine();
+        while (direccion.equalsIgnoreCase("s")) {
+            System.out.println("Ingrese el tipo de direccion(casa, trabajo, etc):");
+            String tipo = sc.nextLine();
+            System.out.println("Ingrese la direccion:");
+            String numero = sc.nextLine();
+            persona.getDirecciones().put(tipo, numero);
 
+            System.out.println("Desea agregar otro numero de telefono (s/n):");
+            direccion = sc.nextLine();
+        }
+        
+        
+       
         // Agregar correos electronicos
         System.out.println("Desea agregar correos electronicos (s/n):");
         respuesta = sc.nextLine();
@@ -195,12 +211,13 @@ public class Agenda {
                 System.out.println("Desea agregar otra foto? (s/n):");
             } while (sc.nextLine().equalsIgnoreCase("s"));
         }
+        
         System.out.println("Desea agregar contactos relacionados? (s/n):");
         if (sc.nextLine().equalsIgnoreCase("s")) {
             do {
                 Contacto contactoRelacionado = crearContactoPersonaRelacionado();
                 persona.getContactosRelacionados().addLast(contactoRelacionado);
-                System.out.println("Desea agregar otra foto? (s/n):");
+                System.out.println("Desea agregar otro contacto relacionado? (s/n):");
             } while (sc.nextLine().equalsIgnoreCase("s"));
         }
         System.out.println("Desea agregar fechas de interes? (s/n):");
@@ -220,37 +237,37 @@ public class Agenda {
         System.out.println("Contacto creado y agregado a la lista");
     }
     
-     public void editarDatosPersona() {
-        if (contactos == null || contactos.mostrarPosicionContactoActual() == null) {
-            System.out.println("No hay contactos disponibles para editar.");
-            return;
+public void editarDatosPersona() {
+    if (contactos == null || contactos.mostrarPosicionContactoActual() == null) {
+        System.out.println("No hay contactos disponibles para editar.");
+        return;
+    }
+
+    System.out.println("Ingrese el nombre de la persona que desea editar:");
+    String nombrePersona = scanner.nextLine();
+    Contacto contactoEncontrado = null;
+
+    NodoCircularDoble<Contacto> actual = contactos.miCabecera;
+    if (actual == null) {
+        System.out.println("No hay contactos en la lista.");
+        return;
+    }
+
+    do {
+        if (actual.dato instanceof Persona && actual.dato.getNombre().equalsIgnoreCase(nombrePersona)) {
+            contactoEncontrado = actual.dato;
+            break;
         }
+        actual = actual.siguiente;
+    } while (actual != contactos.miCabecera);
 
-        System.out.println("Ingrese el nombre de la persona que desea editar:");
-        String nombrePersona = scanner.nextLine();
-        Contacto contactoEncontrado = null;
+    if (contactoEncontrado == null) {
+        System.out.println("No se encontro una persona con el nombre especificado.");
+        return;
+    }
 
-        NodoCircularDoble<Contacto> actual = contactos.miCabecera;
-        if (actual == null) {
-            System.out.println("No hay contactos en la lista.");
-            return;
-        }
-
-        do {
-            if (actual.dato instanceof Persona && actual.dato.getNombre().equalsIgnoreCase(nombrePersona)) {
-                contactoEncontrado = actual.dato;
-                break;
-            }
-            actual = actual.siguiente;
-        } while (actual != contactos.miCabecera);
-
-        if (contactoEncontrado == null) {
-            System.out.println("No se encontro una persona con el nombre especificado.");
-            return;
-        }
-
-        Persona persona = (Persona) contactoEncontrado;
-        boolean continuarEdicion = true;
+    Persona persona = (Persona) contactoEncontrado;
+    boolean continuarEdicion = true;
 
     while (continuarEdicion) {
         System.out.println("\nQue desea editar?");
@@ -259,20 +276,24 @@ public class Agenda {
         System.out.println("3. Telefonos de la persona");
         System.out.println("4. Emails de la persona");
         System.out.println("5. Redes sociales");
-        System.out.println("6. Contactos asociados");
-        System.out.println("7. Salir");
-        System.out.print("Seleccione una opción: ");
+        System.out.println("6. Direccion");
+        System.out.println("7. Fotos asociadas");
+        System.out.println("8. Contactos asociados");
+        System.out.println("9. Salir");
+        System.out.print("Seleccione una opcion: ");
 
         int opcion = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salto de línea
+        scanner.nextLine(); // Consumir el salto de linea
 
         switch (opcion) {
             case 1:
+                // Editar nombre
                 System.out.println("Ingrese el nuevo nombre de la persona:");
                 String nuevoNombre = scanner.nextLine();
                 persona.setNombre(nuevoNombre);
                 break;
             case 2:
+                // Editar fecha de nacimiento
                 System.out.println("Ingrese la nueva fecha de nacimiento (yyyy-MM-dd):");
                 try {
                     Date nuevaFechaNacimiento = java.sql.Date.valueOf(scanner.nextLine());
@@ -282,37 +303,201 @@ public class Agenda {
                 }
                 break;
             case 3:
-                HashMap<String, String> nuevosTelefonos = new HashMap<>();
-                System.out.println("Ingrese el tipo de telefono (Móvil, Oficina, etc.):");
-                String tipo = scanner.nextLine();
-                System.out.println("Ingrese el numero de telefono:");
-                String numero = scanner.nextLine();
-                nuevosTelefonos.put(tipo, numero);
-                persona.getTelef().clear();
-                persona.getTelef().putAll(nuevosTelefonos);
+                // Editar telefonos
+                System.out.println("Que desea hacer con los telefonos?");
+                System.out.println("1. Agregar telefono");
+                System.out.println("2. Editar telefono existente");
+                System.out.println("3. Eliminar telefono");
+                int opcionTelefono = scanner.nextInt();
+                scanner.nextLine(); // Consumir el salto de linea
+
+                switch (opcionTelefono) {
+                    case 1:
+                        System.out.println("Ingrese el tipo de telefono (Movil, Oficina, etc.):");
+                        String tipoTelefono = scanner.nextLine();
+                        System.out.println("Ingrese el numero de telefono:");
+                        String numeroTelefono = scanner.nextLine();
+                        persona.getTelef().put(tipoTelefono, numeroTelefono);  // Agregar telefono
+                        break;
+                    case 2:
+                        System.out.println("Ingrese el tipo de telefono a editar:");
+                        String tipoTelefonoEditar = scanner.nextLine();
+                        if (persona.getTelef().containsKey(tipoTelefonoEditar)) {
+                            System.out.println("Ingrese el nuevo numero de telefono:");
+                            String nuevoNumeroTelefono = scanner.nextLine();
+                            persona.getTelef().put(tipoTelefonoEditar, nuevoNumeroTelefono);  // Editar telefono
+                        } else {
+                            System.out.println("No se encontro el tipo de telefono para editar.");
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Ingrese el tipo de telefono a eliminar:");
+                        String tipoTelefonoEliminar = scanner.nextLine();
+                        if (persona.getTelef().remove(tipoTelefonoEliminar) != null) {
+                            System.out.println("Telefono eliminado.");
+                        } else {
+                            System.out.println("No se encontro el telefono para eliminar.");
+                        }
+                        break;
+                    default:
+                        System.out.println("Opcion no valida.");
+                }
                 break;
             case 4:
-                HashMap<String, String> nuevosEmails = new HashMap<>();
-                System.out.println("Ingrese el tipo de email (Personal, Trabajo, etc.):");
-                String tipoEmail = scanner.nextLine();
-                System.out.println("Ingrese el email:");
-                String email = scanner.nextLine();
-                nuevosEmails.put(tipoEmail, email);
-                persona.getEmails().clear();
-                persona.getEmails().putAll(nuevosEmails);
+                // Editar emails
+                System.out.println("Que desea hacer con los emails?");
+                System.out.println("1. Agregar email");
+                System.out.println("2. Editar email existente");
+                System.out.println("3. Eliminar email");
+                int opcionEmail = scanner.nextInt();
+                scanner.nextLine(); // Consumir el salto de linea
+
+                switch (opcionEmail) {
+                    case 1:
+                        System.out.println("Ingrese el tipo de email (Personal, Trabajo, etc.):");
+                        String tipoEmail = scanner.nextLine();
+                        System.out.println("Ingrese el email:");
+                        String email = scanner.nextLine();
+                        persona.getEmails().put(tipoEmail, email);  // Agregar email
+                        break;
+                    case 2:
+                        System.out.println("Ingrese el tipo de email a editar:");
+                        String tipoEmailEditar = scanner.nextLine();
+                        if (persona.getEmails().containsKey(tipoEmailEditar)) {
+                            System.out.println("Ingrese el nuevo email:");
+                            String nuevoEmail = scanner.nextLine();
+                            persona.getEmails().put(tipoEmailEditar, nuevoEmail);  // Editar email
+                        } else {
+                            System.out.println("No se encontro el tipo de email para editar.");
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Ingrese el tipo de email a eliminar:");
+                        String tipoEmailEliminar = scanner.nextLine();
+                        if (persona.getEmails().remove(tipoEmailEliminar) != null) {
+                            System.out.println("Email eliminado.");
+                        } else {
+                            System.out.println("No se encontro el email para eliminar.");
+                        }
+                        break;
+                    default:
+                        System.out.println("Opcion no valida.");
+                }
                 break;
             case 5:
-                System.out.println("Ingrese la plataforma de la red social (Ej: Instagram, Twitter, etc.):");
-                String plataforma = scanner.nextLine();
-                System.out.println("Ingrese el usuario:");
-                String usuario = scanner.nextLine();
-                persona.agregarRedSocial(plataforma, usuario);
+                // Editar redes sociales
+                System.out.println("Que desea hacer con las redes sociales?");
+                System.out.println("1. Agregar red social");
+                System.out.println("2. Editar red social existente");
+                System.out.println("3. Eliminar red social");
+                int opcionRedes = scanner.nextInt();
+                scanner.nextLine(); // Consumir el salto de linea
+
+                switch (opcionRedes) {
+                    case 1:
+                        System.out.println("Ingrese la plataforma de la red social (Ej: Instagram, Twitter, etc.):");
+                        String plataforma = scanner.nextLine();
+                        System.out.println("Ingrese el usuario:");
+                        String usuario = scanner.nextLine();
+                        persona.agregarRedSocial(plataforma, usuario);  // Agregar red social
+                        break;
+                    case 2:
+                        System.out.println("Ingrese la plataforma de la red social a editar:");
+                        String plataformaEditar = scanner.nextLine();
+                        if (persona.getRedesSociales().containsKey(plataformaEditar)) {
+                            System.out.println("Ingrese el nuevo usuario:");
+                            String nuevoUsuario = scanner.nextLine();
+                            persona.getRedesSociales().put(plataformaEditar, nuevoUsuario);  // Editar red social
+                        } else {
+                            System.out.println("No se encontro la red social para editar.");
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Ingrese la plataforma de la red social a eliminar:");
+                        String plataformaEliminar = scanner.nextLine();
+                        if (persona.getRedesSociales().remove(plataformaEliminar) != null) {
+                            System.out.println("Red social eliminada.");
+                        } else {
+                            System.out.println("No se encontro la red social para eliminar.");
+                        }
+                        break;
+                    default:
+                        System.out.println("Opcion no valida.");
+                }
                 break;
             case 6:
+                // Editar direccion
+                System.out.println("Que desea hacer con las direcciones?");
+                System.out.println("1. Agregar direccion");
+                System.out.println("2. Editar direccion existente");
+                System.out.println("3. Eliminar direccion");
+                int opcionDireccion = scanner.nextInt();
+                scanner.nextLine(); // Consumir el salto de linea
+
+                switch (opcionDireccion) {
+                    case 1:
+                        // Agregar direccion
+                        System.out.println("Ingrese el tipo de direccion (Casa, Oficina, etc.):");
+                        String tipoDireccion = scanner.nextLine();
+                        System.out.println("Ingrese la direccion:");
+                        String direccion = scanner.nextLine();
+                        persona.getDirecciones().put(tipoDireccion, direccion);  // Agregar direccion
+                        break;
+                    case 2:
+                        // Editar direccion existente
+                        System.out.println("Ingrese el tipo de direccion a editar:");
+                        String tipoDireccionEditar = scanner.nextLine();
+                        if (persona.getDirecciones().containsKey(tipoDireccionEditar)) {
+                            System.out.println("Ingrese la nueva direccion:");
+                            String nuevaDireccion = scanner.nextLine();
+                            persona.getDirecciones().put(tipoDireccionEditar, nuevaDireccion);  // Editar direccion
+                        } else {
+                            System.out.println("No se encontro el tipo de direccion para editar.");
+                        }
+                        break;
+                    case 3:
+                        // Eliminar direccion
+                        System.out.println("Ingrese el tipo de direccion a eliminar:");
+                        String tipoDireccionEliminar = scanner.nextLine();
+                        if (persona.getDirecciones().remove(tipoDireccionEliminar) != null) {
+                            System.out.println("Direccion eliminada.");
+                        } else {
+                            System.out.println("No se encontro la direccion para eliminar.");
+                        }
+                        break;
+                    default:
+                        System.out.println("Opcion no valida.");
+                }
+                break;
+            case 7:
+                // Editar fotos asociadas
+                System.out.println("Que desea hacer con las fotos asociadas?");
+                System.out.println("1. Agregar foto");
+                System.out.println("2. Eliminar foto");
+                int opcionFotos = scanner.nextInt();
+                scanner.nextLine(); // Consumir el salto de linea
+
+                switch (opcionFotos) {
+                    case 1:
+                        System.out.println("Ingrese la URL de la foto:");
+                        String urlFoto = scanner.nextLine();
+                        persona.agregarFoto(urlFoto);  // Agregar foto
+                        break;
+                    case 2:
+                        System.out.println("Ingrese el indice de la foto a eliminar:");
+                        persona.mostrarFotos();
+                        int urlFotoEliminar = scanner.nextInt();
+                        persona.eliminarFoto(urlFotoEliminar);  // Eliminar foto
+                        break;
+                    default:
+                        System.out.println("Opcion no valida.");
+                }
+                break;
+            case 8:
                 // Gestionar los contactos asociados
                 editarContactosAsociadosDePersona(persona);
                 break;
-            case 7:
+            case 9:
                 continuarEdicion = false;
                 break;
             default:
@@ -334,7 +519,7 @@ public class Agenda {
 
     // Solicitar teléfono de la empresa
     HashMap<String, String> telefonosEmpresa = new HashMap<>();
-    System.out.println("Ingrese el tipo de teléfono de la empresa (Móvil, Oficina):");
+    System.out.println("Ingrese el tipo de telefono de la empresa (Movil, Oficina):");
     String tipoTelf = scanner.nextLine();
     System.out.println("Ingrese el numero de telefono:");
     String numTelf = scanner.nextLine();
@@ -396,18 +581,32 @@ public class Agenda {
     System.out.println("Empresa agregada exitosamente.");
 }
 
-    public void guardarContactos(String archivo) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo))) {
+   public void guardarContactos(String archivo) {
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(archivo));
             NodoCircularDoble<Contacto> actual = contactos.miCabecera;
+
             if (actual != null) {
                 do {
                     oos.writeObject(actual.dato);
                     actual = actual.siguiente;
                 } while (actual != contactos.miCabecera);
+            } else {
+                System.out.println("La lista de contactos está vacía.");
             }
+
             System.out.println("Contactos guardados exitosamente como binarios.");
         } catch (IOException e) {
             System.err.println("Error al guardar contactos: " + e.getMessage());
+        } finally {
+            if (oos != null) {
+                try {
+                    oos.close(); // Cerrar el recurso manualmente
+                } catch (IOException e) {
+                    System.err.println("Error al cerrar el flujo de salida: " + e.getMessage());
+                }
+            }
         }
     }
 
@@ -467,7 +666,7 @@ public class Agenda {
             System.out.println("4. Emails de la empresa");
             System.out.println("5. Información del director");
             System.out.println("6. Salir");
-            System.out.print("Seleccione una opción: ");
+            System.out.print("Seleccione una opcion: ");
 
             int opcion = scanner.nextInt();
             scanner.nextLine(); // Consumir el salto de línea
@@ -558,7 +757,7 @@ public class Agenda {
                     continuarEdicion = false;
                     break;
                 default:
-                    System.out.println("Opción no valida.");
+                    System.out.println("Opcion no valida.");
             }
         }
     }

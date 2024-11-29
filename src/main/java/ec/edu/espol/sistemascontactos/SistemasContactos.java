@@ -17,7 +17,7 @@ public class SistemasContactos{
         int ordenarPor;
 
         while (true) {
-            System.out.println("--------------------- Bienvenido al sistema de gestión de contactos -----------------------");
+            System.out.println("--------------------- Bienvenido al sistema de gestion de contactos -----------------------");
             System.out.println("1. Agregar Persona");
             System.out.println("2. Agregar Empresa");
             System.out.println("3. Mostrar Contactos Adelante");
@@ -32,7 +32,7 @@ public class SistemasContactos{
             System.out.print("Seleccione una opcion:");
             int opcion = scanner.nextInt();
             scanner.nextLine();
-            System.out.println("---------------------------------------------------------");
+            System.out.println("----------------------------------------------------------------");
             
             switch (opcion) {
                 case 1:
