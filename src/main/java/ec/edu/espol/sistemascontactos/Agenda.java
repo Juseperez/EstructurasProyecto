@@ -556,18 +556,32 @@ public void editarDatosPersona() {
     System.out.println("Empresa agregada exitosamente.");
 }
 
-    public void guardarContactos(String archivo) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(archivo))) {
+   public void guardarContactos(String archivo) {
+        ObjectOutputStream oos = null;
+        try {
+            oos = new ObjectOutputStream(new FileOutputStream(archivo));
             NodoCircularDoble<Contacto> actual = contactos.miCabecera;
+
             if (actual != null) {
                 do {
                     oos.writeObject(actual.dato);
                     actual = actual.siguiente;
                 } while (actual != contactos.miCabecera);
+            } else {
+                System.out.println("La lista de contactos está vacía.");
             }
+
             System.out.println("Contactos guardados exitosamente como binarios.");
         } catch (IOException e) {
             System.err.println("Error al guardar contactos: " + e.getMessage());
+        } finally {
+            if (oos != null) {
+                try {
+                    oos.close(); // Cerrar el recurso manualmente
+                } catch (IOException e) {
+                    System.err.println("Error al cerrar el flujo de salida: " + e.getMessage());
+                }
+            }
         }
     }
 
