@@ -35,6 +35,13 @@ public class Persona extends Contacto implements Serializable{
     
     // Metodos de la clase persona
 
+    @Override
+    public HashMap<String, String> getRedesSociales() {
+        return redesSociales;
+    }
+    
+    
+
     public HashMap<String, String> getDirecciones() {
         return direcciones;
     }
@@ -96,7 +103,8 @@ public class Persona extends Contacto implements Serializable{
             System.out.println("2. Teléfonos");
             System.out.println("3. Emails");
             System.out.println("4. Redes Sociales");
-            System.out.println("5. Salir");
+            System.out.println("5. Direcciones");
+            System.out.println("6. Salir");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -250,6 +258,53 @@ public class Persona extends Contacto implements Serializable{
                     break;
 
                 case 5:
+                    // Editar direcciones
+                    System.out.println("¿Qué desea hacer con las direcciones?");
+                    System.out.println("1. Agregar dirección");
+                    System.out.println("2. Editar dirección existente");
+                    System.out.println("3. Eliminar dirección");
+                    int opcionDireccion = scanner.nextInt();
+                    scanner.nextLine(); // Consumir el salto de línea
+
+                    switch (opcionDireccion) {
+                        case 1:
+                            // Agregar dirección
+                            System.out.println("Ingrese el tipo de dirección (Casa, Oficina, etc.):");
+                            String tipoDireccion = scanner.nextLine();
+                            System.out.println("Ingrese la dirección:");
+                            String direccion = scanner.nextLine();
+                            persona.getDirecciones().put(tipoDireccion, direccion);  // Agregar dirección
+                            System.out.println("Dirección agregada.");
+                            break;
+                        case 2:
+                            // Editar dirección existente
+                            System.out.println("Ingrese el tipo de dirección a editar:");
+                            String tipoDireccionEditar = scanner.nextLine();
+                            if (persona.getDirecciones().containsKey(tipoDireccionEditar)) {
+                                System.out.println("Ingrese la nueva dirección:");
+                                String nuevaDireccion = scanner.nextLine();
+                                persona.getDirecciones().put(tipoDireccionEditar, nuevaDireccion);  // Editar dirección
+                                System.out.println("Dirección editada.");
+                            } else {
+                                System.out.println("No se encontró el tipo de dirección para editar.");
+                            }
+                            break;
+                        case 3:
+                            // Eliminar dirección
+                            System.out.println("Ingrese el tipo de dirección a eliminar:");
+                            String tipoDireccionEliminar = scanner.nextLine();
+                            if (persona.getDirecciones().remove(tipoDireccionEliminar) != null) {
+                                System.out.println("Dirección eliminada.");
+                            } else {
+                                System.out.println("No se encontró el tipo de dirección para eliminar.");
+                            }
+                            break;
+                        default:
+                            System.out.println("Opción no válida.");
+                    }
+                    break;
+
+                case 6:
                     continuarEdicion = false;
                     break;
 

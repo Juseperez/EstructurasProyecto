@@ -132,7 +132,23 @@ public class Agenda {
             System.out.println("Desea agregar otro numero de telefono (s/n):");
             respuesta = sc.nextLine();
         }
+        
+        // Agregar direccion
+        System.out.println("Desea agregar una direccion (s/n):");
+        String direccion = sc.nextLine();
+        while (direccion.equalsIgnoreCase("s")) {
+            System.out.println("Ingrese el tipo de direccion(casa, trabajo, etc):");
+            String tipo = sc.nextLine();
+            System.out.println("Ingrese la direccion:");
+            String numero = sc.nextLine();
+            persona.getDirecciones().put(tipo, numero);
 
+            System.out.println("Desea agregar otro numero de telefono (s/n):");
+            direccion = sc.nextLine();
+        }
+        
+        
+       
         // Agregar correos electronicos
         System.out.println("Desea agregar correos electronicos (s/n):");
         respuesta = sc.nextLine();

@@ -29,7 +29,7 @@ public class SistemasContactos{
             System.out.print("Seleccione una opcion:");
             int opcion = scanner.nextInt();
             scanner.nextLine();
-            System.out.println("---------------------------------------------------------");
+            System.out.println("----------------------------------------------------------------");
             
             switch (opcion) {
                 case 1:
