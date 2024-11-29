@@ -5,6 +5,8 @@
 package ec.edu.espol.sistemascontactos;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Comparator;
 
 /**
  *
@@ -137,7 +139,103 @@ public class CustomListaCircularEnlazadaDoble<E> implements Serializable{
     public int size(){
         return tamanio;
     }
+    public void ordenar(Comparator<Contacto> comparador) {
+        if (miCabecera == null || miCabecera.siguiente == miCabecera) {
+            // La lista está vacía o tiene solo un elemento
+            return;
+        }
+
+        boolean intercambiar;
+        do {
+            intercambiar = false;
+            NodoCircularDoble<Contacto> actual = miCabecera;
+            do {
+                NodoCircularDoble<Contacto> siguiente = actual.siguiente;
+                if (comparador.compare(actual.dato, siguiente.dato) > 0) {
+                    Contacto temp = actual.dato;
+                    actual.dato = siguiente.dato;
+                    siguiente.dato = temp;
+                    intercambiar = true;
+                }
+                actual = siguiente;
+            } while (actual.siguiente != miCabecera); // Recorrer hasta el último nodo
+        } while (intercambiar);
+    }
+    
+    public CustomListaCircularEnlazadaDoble<E> filtrarNombre(String nombre){
+        CustomListaCircularEnlazadaDoble<E> filtrar=new CustomListaCircularEnlazadaDoble<>();
+        if(miCabecera==null){
+            return filtrar;
+        }
+        NodoCircularDoble<Contacto> actual=miCabecera;
+        do{
+            if(actual.dato.getNombre().equalsIgnoreCase(nombre))
+                filtrar.addLast(actual.dato);
+            actual=actual.siguiente;
+        }while(actual != miCabecera);
+        return filtrar;
+    }
+    
+    public CustomListaCircularEnlazadaDoble<E> filtrarDireccion(String direccion){
+        CustomListaCircularEnlazadaDoble<E> filtrar=new CustomListaCircularEnlazadaDoble<>();
+        if(miCabecera==null){
+            return filtrar;
+        }
+        NodoCircularDoble<Contacto> actual=miCabecera;
+        do{
+            boolean esEmpresa = actual.dato instanceof Empresa;
+            if(esEmpresa){
+                Empresa empresa = (Empresa) actual.dato;
+                if(empresa.getDireccionTrabajo().equalsIgnoreCase(direccion))
+                    filtrar.addLast(actual.dato);
+            }
+            actual=actual.siguiente;
+            }while(actual != miCabecera);
+        return filtrar;
+    }
+    
+    public CustomListaCircularEnlazadaDoble<E> filtrarCumple(int mes){
+        CustomListaCircularEnlazadaDoble<E> filtrar=new CustomListaCircularEnlazadaDoble<>();
+        if(miCabecera==null){
+            return filtrar;
+        }
+        NodoCircularDoble<Contacto> actual=miCabecera;
+        do{
+            boolean esPersona = actual.dato instanceof Persona;
+            if(esPersona){
+                Persona persona = (Persona) actual.dato;
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(persona.getFechaNacimiento());
+                int mesNacimiento = calendar.get(Calendar.MONTH);
+                if(mesNacimiento == mes)
+                    filtrar.addLast(actual.dato);
+            }
+            actual=actual.siguiente;
+            }while(actual != miCabecera);
+        return filtrar;
+    }
+    
+    public CustomListaCircularEnlazadaDoble<E> filtroDoble(String nombre, int mes){
+        CustomListaCircularEnlazadaDoble<E> filtrar=new CustomListaCircularEnlazadaDoble<>();
+        if(miCabecera==null){
+            return filtrar;
+        }
+        NodoCircularDoble<Contacto> actual=miCabecera;
+        do{
+            boolean esPersona = actual.dato instanceof Persona;
+            if(esPersona){
+                Persona persona = (Persona) actual.dato;
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(persona.getFechaNacimiento());
+                int mesNacimiento = calendar.get(Calendar.MONTH);
+                if(mesNacimiento == mes && actual.dato.getNombre().equalsIgnoreCase(nombre))
+                    filtrar.addLast(actual.dato);
+            }
+            actual=actual.siguiente;
+            }while(actual != miCabecera);
+        return filtrar;
+    }
+
 }
 
-    
 

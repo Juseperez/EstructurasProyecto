@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -24,6 +25,30 @@ public class Agenda {
     
     public Agenda(){
         this.contactos = new CustomListaCircularEnlazadaDoble<>();
+    }
+    
+    public void mostrar(){
+        contactos.mostrarContactos();
+    }
+    
+    public CustomListaCircularEnlazadaDoble<Contacto> filtrarPorNombre(String nombre){
+        return contactos.filtrarNombre(nombre);
+    }
+    
+    public CustomListaCircularEnlazadaDoble<Contacto> filtrarPorDireccion(String direccion){
+        return contactos.filtrarDireccion(direccion);
+    }
+    
+    public CustomListaCircularEnlazadaDoble<Contacto> filtrarPorMes(int mes){
+        return contactos.filtrarCumple(mes);
+    }
+    
+    public CustomListaCircularEnlazadaDoble<Contacto> busquedaAvanzada(String nombre,int mes){
+        return contactos.filtroDoble(nombre,mes);
+    }
+    
+    public void ordenarContactos(Comparator<Contacto> comparador){
+        contactos.ordenar(comparador);
     }
     
     public void agregarEmpresa(){
