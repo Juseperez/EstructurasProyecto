@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ArrayListPropio<E> implements Serializable {
     private E[] elementos;
-    private int tamanio;
+    private Integer tamanio;
 
     @SuppressWarnings("unchecked")
     public ArrayListPropio() {

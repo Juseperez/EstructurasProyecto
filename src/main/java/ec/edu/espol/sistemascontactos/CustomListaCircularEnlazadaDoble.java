@@ -17,7 +17,7 @@ public class CustomListaCircularEnlazadaDoble<E> implements Serializable{
     
     public NodoCircularDoble<Contacto> miCabecera;
     private NodoCircularDoble<Contacto> nodoNavegacion;
-    private int tamanio;
+    private Integer tamanio;
     
     public CustomListaCircularEnlazadaDoble(){
         
@@ -50,6 +50,32 @@ public class CustomListaCircularEnlazadaDoble<E> implements Serializable{
         tamanio++;
         
     }
+    
+    public void addFirst(Contacto contacto) {
+        NodoCircularDoble<Contacto> nuevoNodo = new NodoCircularDoble<>(contacto);
+    
+        if (miCabecera == null) {
+            // Si la lista está vacía, el nuevo nodo será el único en la lista
+            miCabecera = nuevoNodo;
+            miCabecera.siguiente = miCabecera;
+            miCabecera.anterior = miCabecera;
+            nodoNavegacion = miCabecera;
+        } else {
+            // Si la lista tiene elementos, agregamos el nuevo nodo antes de la cabecera
+            NodoCircularDoble<Contacto> ultimoNodo = miCabecera.anterior;
+    
+            nuevoNodo.siguiente = miCabecera;    // El siguiente del nuevo nodo será la cabecera
+            nuevoNodo.anterior = ultimoNodo;      // El anterior del nuevo nodo será el último nodo
+            ultimoNodo.siguiente = nuevoNodo;     // El siguiente del último nodo será el nuevo nodo
+            miCabecera.anterior = nuevoNodo;     // La cabecera anterior será el nuevo nodo
+    
+            // Ahora el nuevo nodo se convierte en la cabecera
+            miCabecera = nuevoNodo;
+        }
+    
+        tamanio++;
+    }
+    
 
    // Método para eliminar un contacto específico
     public boolean eliminar(Contacto contacto) {
