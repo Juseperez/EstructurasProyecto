@@ -70,7 +70,7 @@ public class SistemasContactos{
                     System.out.println("\n");
                     return;
                 default:
-                    System.out.println("Opción inválida.");
+                    System.out.println("Opción invalida.");
             }
         }
     }
