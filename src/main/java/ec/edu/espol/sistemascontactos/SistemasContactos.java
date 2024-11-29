@@ -16,7 +16,7 @@ public class SistemasContactos{
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("--------------------- Bienvenido al sistema de gestión de contactos -----------------------");
+            System.out.println("--------------------- Bienvenido al sistema de gestion de contactos -----------------------");
             System.out.println("1. Agregar Persona");
             System.out.println("2. Agregar Empresa");
             System.out.println("3. Mostrar Contactos Adelante");

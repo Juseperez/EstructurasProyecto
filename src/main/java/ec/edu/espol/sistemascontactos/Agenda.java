@@ -170,12 +170,13 @@ public class Agenda {
                 System.out.println("Desea agregar otra foto? (s/n):");
             } while (sc.nextLine().equalsIgnoreCase("s"));
         }
+        
         System.out.println("Desea agregar contactos relacionados? (s/n):");
         if (sc.nextLine().equalsIgnoreCase("s")) {
             do {
                 Contacto contactoRelacionado = crearContactoPersonaRelacionado();
                 persona.getContactosRelacionados().addLast(contactoRelacionado);
-                System.out.println("Desea agregar otra foto? (s/n):");
+                System.out.println("Desea agregar otro contacto relacionado? (s/n):");
             } while (sc.nextLine().equalsIgnoreCase("s"));
         }
         System.out.println("Desea agregar fechas de interes? (s/n):");
@@ -236,7 +237,7 @@ public class Agenda {
         System.out.println("5. Redes sociales");
         System.out.println("6. Contactos asociados");
         System.out.println("7. Salir");
-        System.out.print("Seleccione una opción: ");
+        System.out.print("Seleccione una opcion: ");
 
         int opcion = scanner.nextInt();
         scanner.nextLine(); // Consumir el salto de línea
@@ -309,7 +310,7 @@ public class Agenda {
 
     // Solicitar teléfono de la empresa
     HashMap<String, String> telefonosEmpresa = new HashMap<>();
-    System.out.println("Ingrese el tipo de teléfono de la empresa (Móvil, Oficina):");
+    System.out.println("Ingrese el tipo de telefono de la empresa (Movil, Oficina):");
     String tipoTelf = scanner.nextLine();
     System.out.println("Ingrese el numero de telefono:");
     String numTelf = scanner.nextLine();
@@ -442,7 +443,7 @@ public class Agenda {
             System.out.println("4. Emails de la empresa");
             System.out.println("5. Información del director");
             System.out.println("6. Salir");
-            System.out.print("Seleccione una opción: ");
+            System.out.print("Seleccione una opcion: ");
 
             int opcion = scanner.nextInt();
             scanner.nextLine(); // Consumir el salto de línea
@@ -533,7 +534,7 @@ public class Agenda {
                     continuarEdicion = false;
                     break;
                 default:
-                    System.out.println("Opción no valida.");
+                    System.out.println("Opcion no valida.");
             }
         }
     }
