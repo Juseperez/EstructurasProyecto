@@ -620,7 +620,7 @@ public void editarDatosPersona() {
             }
             System.out.println("Contactos cargados exitosamente desde archivo binario.");
         } catch (IOException | ClassNotFoundException e) {
-            //System.err.println("Error al cargar contactos: " + e.getMessage());
+            System.err.println("Error al cargar contactos: " + e.getMessage());
         }
     }
     
